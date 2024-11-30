@@ -1,0 +1,15 @@
+---
+- name: Run java hello world in docker 
+  hosts: localhost
+  tasks:
+    - name: build docker image 
+      ansible.builtin.command:
+        cmd: sudo docker build -t java-hello-world . 
+        chdir: /etc/ansible/playbooks/ansible_docker
+    - name: run docker container and capture output
+      ansible.builtin.shell:
+        cmd: sudo docker run java-hello-world
+      register: output
+    - name: display output java program
+      ansible.builtin.debug:
+        var: output.stdout
